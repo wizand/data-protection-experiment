@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{503F043D-2082-4C78-8DCA-4E4FF4A4B76F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataProtectionApi", "DataProtectionApi\DataProtectionApi.csproj", "{DF3F908C-AB98-4271-BAB9-8B9E72603C76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{503F043D-2082-4C78-8DCA-4E4FF4A4B76F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{503F043D-2082-4C78-8DCA-4E4FF4A4B76F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{503F043D-2082-4C78-8DCA-4E4FF4A4B76F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{503F043D-2082-4C78-8DCA-4E4FF4A4B76F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF3F908C-AB98-4271-BAB9-8B9E72603C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF3F908C-AB98-4271-BAB9-8B9E72603C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF3F908C-AB98-4271-BAB9-8B9E72603C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF3F908C-AB98-4271-BAB9-8B9E72603C76}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
