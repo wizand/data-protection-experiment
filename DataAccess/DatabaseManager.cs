@@ -12,7 +12,7 @@ namespace DataAccess
     {
 
         private readonly string _connectionString;
-        private const string _createDatabase = "CREATE DATABASE IF NOT EXISTS AccessRights ();";
+        
 
         public DatabaseManager(string connectionString)
         {
@@ -26,7 +26,7 @@ namespace DataAccess
             using (var connection = new SqliteConnection(_connectionString))
             {
                 connection.Open();
-                StringBuilder sb = new StringBuilder("CREATE DATABASE IF NOT EXISTS ");
+                StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
                 sb.Append(tableName);
                 sb.Append(" (");
                 for (int i = 0; i < columns.Length; i++)
@@ -38,15 +38,15 @@ namespace DataAccess
                     }
                 }
                 sb.Append(");");
-
-                numOfRowsAffected = connection.Execute(sb.ToString());
+                string sqlClause = sb.ToString();
+                numOfRowsAffected = connection.Execute(sqlClause);
 
             }
 
 
             if (numOfRowsAffected == 0)
             {
-                return false;
+             //   return false;
             }
 
             return true;
@@ -62,6 +62,17 @@ namespace DataAccess
                     return connection.Execute(insertStatement, entities, transaction: transaction);
                 }
             }
+        }
+        internal int GetCount(string tableName)
+        {
+            //TODO: How to do this with preparedstatement?
+            string queryStatement = $"SELECT COUNT(*) FROM {tableName};";
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                connection.Open();
+                return connection.ExecuteScalar<int>(queryStatement);
+            }
+
         }
 
         internal int InsertAccessRights(List<AccessRight> accessRights)
@@ -81,5 +92,12 @@ namespace DataAccess
             string insertStatement = "INSERT INTO Application (Name, Description) VALUES (@Name, @Description)";
             return Insert<Application>(insertStatement, applications);
         }
+
+        internal int InsertUsers(List<ExampleUser> initialUsers)
+        {
+            string insertStatement = "INSERT INTO User (Name, Username, Password) VALUES (@Name, @Username, @Password)";
+            return Insert<ExampleUser>(insertStatement, initialUsers);
+        }
+
     }
 }

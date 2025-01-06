@@ -14,6 +14,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 
 builder.Services.AddLogging();
+
+string? dataAccessConnectionString = builder.Configuration.GetConnectionString("DataAccess");
+DataAccess.DatabaseManager dbManager = new DataAccess.DatabaseManager(dataAccessConnectionString);
+DataAccess.InitializeDatabaseWithAccessRights.Initialize(dbManager);
+builder.Services.AddSingleton<DataAccess.DatabaseManager>(dbManager);
+
 string? redisHost = builder.Configuration["Redis:Host"];
 string? redisPort = builder.Configuration["Redis:Port"];
 string? redisPassword = builder.Configuration["Redis:Password"];
