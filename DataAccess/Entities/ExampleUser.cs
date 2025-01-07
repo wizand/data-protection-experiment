@@ -16,7 +16,7 @@ namespace DataAccess.Entities
 
         public string[] GetColumnsSql()
         {
-            return ["Id INTEGER PRIMARY KEY AUTOINCREMENT", "Name TEXT", "Description TEXT"];
+            return ["Id INTEGER PRIMARY KEY AUTOINCREMENT", "Name TEXT", "Username TEXT", "Password TEXT"];
         }
 
         public List<ExampleUser> GetInitializationEntities()

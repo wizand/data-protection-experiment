@@ -57,6 +57,44 @@ namespace DataAccess
             if (count == 0)
             {
                 List<AccessRightAssignment> initialAccessRightAssignments = accessRightAssignment.GetInitializationEntities();
+                var usersFromDb = dbManager.QueryAllFrom<ExampleUser>(exampleUser.GetTableName());
+                var applicationsFromDb = dbManager.QueryAllFrom<Application>(application.GetTableName());
+                var accessRightsFromDb = dbManager.QueryAllFrom<AccessRight>(accessRight.GetTableName());
+
+                ExampleUser? adminUser = null;
+                for (int i = 0; i < usersFromDb.Length; i++)
+                {
+                    if (usersFromDb[i].Name == "Admin")
+                    {
+                        adminUser = usersFromDb[i];
+                        break;
+                    }
+                }
+
+                AccessRight? adminRight = null;
+                for (int i = 0; i < accessRightsFromDb.Length; i++)
+                {
+                    if (accessRightsFromDb[i].Name == "Admin")
+                    {
+                        adminRight = accessRightsFromDb[i];
+                        break;
+                    }
+                }
+
+                if (adminRight == null || adminUser == null)
+                {
+                    throw new Exception("No admin right or user in database.");
+                }
+
+                foreach (var currentApplication in applicationsFromDb)
+                {
+                    AccessRightAssignment assignmentForAdmin = new();
+                    assignmentForAdmin.AccessRightId = adminRight.Id;
+                    assignmentForAdmin.ApplicationId = currentApplication.Id;
+                    assignmentForAdmin.UserId = adminUser.Id;
+                    initialAccessRightAssignments.Add(assignmentForAdmin);
+                }
+
                 inserted += dbManager.InsertAccessRightAssignments(initialAccessRightAssignments);
             }
 

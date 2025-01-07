@@ -59,10 +59,31 @@ namespace DataAccess
                 connection.Open();
                 using (var transaction = connection.BeginTransaction())
                 {
-                    return connection.Execute(insertStatement, entities, transaction: transaction);
+                    int numOfRowsAffected =connection.Execute(insertStatement, entities, transaction: transaction);
+                    transaction.Commit();
+                    return numOfRowsAffected;
+
                 }
             }
         }
+
+
+        internal T[] QueryAllFrom<T>(string tableName)
+        {
+            string queryStatement = $"SELECT * FROM {tableName};";
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                connection.Open();
+                var listResults = connection.Query<T>(queryStatement);
+                if (listResults != null)
+                {
+                    return listResults.ToArray<T>();
+                }
+            }
+            return Array.Empty<T>();
+        }
+
+
         internal int GetCount(string tableName)
         {
             //TODO: How to do this with preparedstatement?
@@ -98,6 +119,8 @@ namespace DataAccess
             string insertStatement = "INSERT INTO User (Name, Username, Password) VALUES (@Name, @Username, @Password)";
             return Insert<ExampleUser>(insertStatement, initialUsers);
         }
+
+        
 
     }
 }
