@@ -103,9 +103,10 @@ app.MapPost("/createRequestTokenString", ([FromServices] ICustomDataProtector d,
 })
 .WithName("createRequestTokenString");
 
-app.MapPost("/encryptString", ([FromServices] ICustomDataProtector d, [FromBody] string plaintextString) =>
+app.MapPost("/encryptString", (HttpContext context, [FromServices] ICustomDataProtector d, [FromBody] string plaintextString) =>
 {
 
+    var request =context.Request;
     string encryptedString = d.Encrypt(plaintextString);
 
 
@@ -118,7 +119,7 @@ app.MapPost("/encryptString", ([FromServices] ICustomDataProtector d, [FromBody]
 app.MapPost("/decryptString", ([FromServices] ICustomDataProtector d, [FromBody] string encryptedString) =>
 {
 
-    string plaintextString = d.Encrypt(encryptedString);
+    string plaintextString = d.Decrypt(encryptedString);
     return plaintextString;
 
 })
